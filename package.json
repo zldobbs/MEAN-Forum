@@ -1,0 +1,24 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "blogging with node and mongodb",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "materialize-css": "*",
+    "mongodb": "*",
+    "mongoose": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "request": "*"
+  },
+  "author": "Zach Dobbs",
+  "license": "ISC"
+}

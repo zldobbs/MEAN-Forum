@@ -1,2 +1,2 @@
-# MEAN-forum
-A web forum built using the MEAN stack 
+# MEAN Forum
+A web forum (that's actually intended to be quite nice) built using the MEAN stack

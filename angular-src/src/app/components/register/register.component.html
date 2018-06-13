@@ -1,0 +1,46 @@
+<div class="row">
+  <h2 class="col s6 m3 push-m3">register</h2>
+  <form (submit)="onRegisterSubmit()" class="col s12">
+    <!-- FIXME: difficult to click the actual inputs..? -->
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3">
+        <input name="name" type="text" [(ngModel)]="name" class="validate">
+        <!--
+          NOTE: intentionally not required,
+                if a user chooses not to provide a name, they will be
+                known as `Anonymous`
+        -->
+        <label for="name">name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3">
+        <input name="email" [(ngModel)]="email" type="email" class="validate" required>
+        <label for="email">email address</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3">
+        <input name="username" [(ngModel)]="username" type="text" class="validate" required>
+        <label for="username">username</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3">
+        <input name="password" [(ngModel)]="password" type="password" class="validate" required>
+        <label for="password">password</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3">
+        <input name="confirmPassword" type="password" class="validate" required>
+        <label for="confirmPassword">confirm password</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m3 white-text">
+        <input type="submit" value="Submit" class="btn waves-effect" required>
+      </div>
+    </div>
+  </form>
+</div>

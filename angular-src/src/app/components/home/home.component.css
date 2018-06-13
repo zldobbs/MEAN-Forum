@@ -1,0 +1,9 @@
+.btn {
+  min-width: 100%;
+}
+
+#home-board {
+  height: 30vh;
+  padding: 2vh 1vh 2vh 1vh;
+  margin: 2vh 0 2vh 0;
+}

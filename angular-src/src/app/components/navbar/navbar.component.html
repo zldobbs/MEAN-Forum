@@ -1,0 +1,26 @@
+<nav>
+  <div class="blue nav-wrapper">
+    <a href="#" class="brand-logo">TGP</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li id="home-nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/']">home</a>
+      </li>
+      <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/login']">login</a>
+      </li>
+      <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/dashboard']">dashboard</a>
+      </li>
+      <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/profile']">profile</a>
+      </li>
+      <!-- TODO: make login/register one page... 'Sign Up!' from login -->
+      <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/register']">register</a>
+      </li>
+      <li *ngIf="authService.loggedIn()">
+            <a (click)="onLogoutClick()" href="#">logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
