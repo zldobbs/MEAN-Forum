@@ -1,4 +1,4 @@
-// handle routing to views within the users sub dirs
+// routes handle authentication and profile management 
 
 const express = require('express');
 const router = express.Router();
