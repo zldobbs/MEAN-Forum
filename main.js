@@ -1,6 +1,7 @@
 /*
   MEAN Forum 
   Zachary Dobbs -- 2018
+  Win10 Script - "C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe"
 */
 
 // initialize app
