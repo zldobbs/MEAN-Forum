@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const config = require('../config/db');
 
+// users are the controller's of the application
 const UserSchema = mongoose.Schema({
   name : {
     type: String
