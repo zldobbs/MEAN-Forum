@@ -45,4 +45,15 @@ module.exports.addPost = function(newPost, callback) {
   newPost.save(callback);
 }
 
+module.exports.updateThreadId = function(post, newThreadId, callback) {
+  Post.findByIdAndUpdate(
+    post._id,
+    {thread_id : newThreadId},
+    {safe: true, upsert: true, new : true},
+  function(err, post) {
+    if (err) throw err;
+    return post;
+  });
+}
+
 // delete post 
