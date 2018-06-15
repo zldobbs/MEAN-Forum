@@ -1,4 +1,19 @@
 <div class="row">
-  <h2 class="col s6 push-m3">dashboard</h2>
-  <p class="col s12 push-m3">welcome to the good place.</p>
+  <h3 class="col s12">welcome, {{ user.username }}</h3>
+
+  <form (submit)="onCreateThreadSubmit()" class="col s12">
+    <!-- FIXME: difficult to click the actual inputs..? -->
+    <div class="row">
+      <!-- for some reason the height of this textarea ends up being 2x as big as it should be... -->
+      <div class="input-field col s12 col m8 push-m2">
+        <textarea name="bodyText" id="bodyText" class="materialize-textarea"></textarea>
+        <label for="bodyText">share your thoughts</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m6 push-m8 white-text">
+        <input type="submit" value="Create" class="btn waves-effect" required>
+      </div>
+    </div>
+  </form>
 </div>
