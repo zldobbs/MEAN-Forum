@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class AuthService {
   constructor(
     private http: Http,
     private jwtHelperService: JwtHelperService
-  ) { }
+  ) {}
 
   registerUser(user) {
     let headers = new Headers();

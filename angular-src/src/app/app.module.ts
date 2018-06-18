@@ -16,6 +16,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
+import { ForumManagerService } from './services/forum-manager.service'
 import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes : Routes = [
@@ -54,6 +55,7 @@ const appRoutes : Routes = [
   providers: [
     ValidateService,
     AuthService,
+    ForumManagerService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

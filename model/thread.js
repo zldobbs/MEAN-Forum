@@ -3,10 +3,10 @@ const bcrypt = require('bcryptjs');
 const config = require('../config/db');
 const Post = require('./post');
 
-// threads are collections of posts 
+// threads are collections of posts
 const ThreadSchema = mongoose.Schema({
   creator : {
-    type: String, 
+    type: String,
     required: true
   },
   posts : [{
@@ -22,6 +22,10 @@ const Thread = module.exports = mongoose.model('Thread', ThreadSchema);
 
 module.exports.getThread = function(id, callback) {
   Thread.findById(id, callback);
+}
+
+module.exports.getAllThreads = function(id, callback) {
+  Thread.find(callback);
 }
 
 module.exports.addThread = function(newThread, callback) {

@@ -5,8 +5,8 @@
     <!-- FIXME: difficult to click the actual inputs..? -->
     <div class="row">
       <!-- for some reason the height of this textarea ends up being 2x as big as it should be... -->
-      <div class="input-field col s12 col m8 push-m2">
-        <textarea name="bodyText" id="bodyText" class="materialize-textarea"></textarea>
+      <div class="input-field col s12 m6 push-m3">
+        <textarea name="bodyText" [(ngModel)]="bodyText" id="bodyText" class="materialize-textarea" required></textarea>
         <label for="bodyText">share your thoughts</label>
       </div>
     </div>
@@ -16,4 +16,14 @@
       </div>
     </div>
   </form>
+</div>
+
+<div class="row">
+  <h3 class="col s12">all threads</h3>
+  <div class="row">
+    <div *ngFor="let thread of threads" class="col s12 m6 push-m3 collection">
+      <!-- FIXME: this should be just a component at some point -->
+      <a href="#"><b>{{ thread.creator }}:</b> posty..</a>
+    </div>
+  </div>
 </div>
