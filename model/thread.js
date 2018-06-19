@@ -9,6 +9,10 @@ const ThreadSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  originText : {
+    type: String,
+    required: true
+  },
   posts : [{
     post_id : mongoose.Schema.Types.ObjectId
   }],
@@ -24,8 +28,9 @@ module.exports.getThread = function(id, callback) {
   Thread.findById(id, callback);
 }
 
-module.exports.getAllThreads = function(id, callback) {
-  Thread.find(callback);
+module.exports.getAllThreads = function(callback) {
+  // second parameter of find() is the query
+  Thread.find({ }, callback);
 }
 
 module.exports.addThread = function(newThread, callback) {

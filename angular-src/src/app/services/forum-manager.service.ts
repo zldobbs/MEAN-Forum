@@ -8,9 +8,9 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ForumManagerService {
-  authToken: any;
   user: any;
   post: any;
+  authToken: string;
 
   constructor(
     private http: Http,
@@ -20,7 +20,8 @@ export class ForumManagerService {
 
   createThread(post) {
     let headers = new Headers();
-    this.authService.loadToken();
+    this.authToken = this.authService.loadToken();
+    console.log('Token = ' + this.authToken);
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/forum/createThread', post, {headers: headers}).pipe(
@@ -32,9 +33,8 @@ export class ForumManagerService {
 
   getAllThreads() {
     let headers = new Headers();
-    this.authService.loadToken();
     headers.append('Content-Type', 'application/json');
-    // TODO: implement allThreads route to get all threads
+    console.log('attempting to get the threads');
     // TODO: at a future point these functions will get more refined
     return this.http.get('http://localhost:3000/forum/allThreads', {headers: headers}).pipe(
       map(function(res) {

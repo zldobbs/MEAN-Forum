@@ -31,6 +31,7 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
       // FIXME: let or const here?
       var newThread = new Thread({
         creator   : req.body.username, // this should be == to post.username
+        originText: req.body.bodyText,
         posts     : [], // for now
         timestamp : new Date()
       });
@@ -49,7 +50,7 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
             }
           });
           // done
-          res.json({succ: true, msg: thread});
+          res.json({succ: true, thread: thread});
         }
       });
     }
@@ -65,7 +66,7 @@ router.get('/allThreads', function(req, res, next) {
       res.json({succ: false, msg: 'failed to get all threads'});
     }
     else {
-      res.json(threads);
+      res.json({succ: true, threads: threads});
     }
   });
 });

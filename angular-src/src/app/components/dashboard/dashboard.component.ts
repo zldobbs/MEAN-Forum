@@ -22,22 +22,23 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     const _this = this;
+
+    // TODO: implement getThreads()
+    this.forumMangagerService.getAllThreads().subscribe(function(data) {
+      if (data.succ) {
+        _this.threads = data.threads;
+      }
+      else {
+        console.log('getAllThreads error');
+        return false;
+      }
+    });
+    
     this.authService.getProfile().subscribe(function(profile) {
       _this.user = profile.user
-      toast('loaded user!');
     },
     function(err) {
       console.log('getProfile error: ' + err);
-      return false;
-    });
-
-    // TODO: implement getThreads()
-    this.forumMangagerService.getAllThreads().subscribe(function(allThreads) {
-      _this.threads = allThreads;
-      toast('loaded threads!');
-    },
-    function(err) {
-      console.log('getAllThreads error: ' + err);
       return false;
     });
   }
