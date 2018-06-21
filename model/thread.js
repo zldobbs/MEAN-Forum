@@ -45,7 +45,7 @@ module.exports.addPost = function(post_id, callback) {
     else {
       Thread.findByIdAndUpdate(
         post.thread_id,
-        {$push: {"posts": {post_id : post_id}}},
+        {$push: {"posts": {_id : post_id}}},
         {safe: true, upsert: true, new : true},
       function(err, thread) {
         if (err) throw err;

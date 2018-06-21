@@ -43,5 +43,18 @@ export class ForumManagerService {
     );
   }
 
+  getAllPostsInThread(thread_id) {
+    let headers = new Headers();
+    const thread = {thread_id : thread_id}
+    console.log('the thread is : ' + thread_id);
+    headers.append('Content-Type', 'application/json');
+    // FIXME: this post request should be a get request? not sure on proper protocol here
+    return this.http.post('http://localhost:3000/forum/postsFromThread', thread, {headers: headers}).pipe(
+      map(function(res) {
+        return res.json();
+      })
+    );
+  }
+
   // TODO: createPost(post)
 }

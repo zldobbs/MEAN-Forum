@@ -25,7 +25,9 @@
   <div class="row">
     <!-- FIXME: this should be just a component at some point -->
     <ul *ngFor="let thread of threads" class="col s12 collection">
-      <li class="collection-item">{{thread.creator}}: {{thread.originText}}</li>
+      <li class="collection-item">{{thread.creator}}: {{thread.originText}} ---
+        <a (click)="goToThread(thread._id)">{{thread._id}}</a>
+      </li>
     </ul>
   </div>
 </div>

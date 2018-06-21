@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ViewThreadComponent } from './components/view-thread/view-thread.component'
 
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
@@ -20,11 +21,12 @@ import { ForumManagerService } from './services/forum-manager.service'
 import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes : Routes = [
-  { path : '',             component : HomeComponent },
-  { path : 'login',        component : LoginComponent },
-  { path : 'register',     component : RegisterComponent },
-  { path : 'profile',      component : ProfileComponent,    canActivate : [AuthGuard] },
-  { path : 'dashboard',    component : DashboardComponent,  canActivate : [AuthGuard] }
+  { path : '', component : HomeComponent },
+  { path : 'login', component : LoginComponent },
+  { path : 'register', component : RegisterComponent },
+  { path : 'profile', component : ProfileComponent, canActivate : [AuthGuard] },
+  { path : 'dashboard', component : DashboardComponent, canActivate : [AuthGuard] },
+  { path : 'viewThread', component : ViewThreadComponent }
 ];
 
 @NgModule({
@@ -35,7 +37,8 @@ const appRoutes : Routes = [
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
-    DashboardComponent
+    DashboardComponent,
+    ViewThreadComponent
   ],
   imports: [
     BrowserModule,

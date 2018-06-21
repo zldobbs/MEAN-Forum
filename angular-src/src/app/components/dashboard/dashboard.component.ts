@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ForumManagerService } from '../../services/forum-manager.service';
 import { toast } from 'angular2-materialize';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +17,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private forumMangagerService: ForumManagerService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -33,7 +34,7 @@ export class DashboardComponent implements OnInit {
         return false;
       }
     });
-    
+
     this.authService.getProfile().subscribe(function(profile) {
       _this.user = profile.user
     },
@@ -61,5 +62,13 @@ export class DashboardComponent implements OnInit {
         _this.router.navigate(['/dashboard']);
       }
     });
+  }
+
+  goToThread(thread_id) {
+    this.router.navigate(
+      ['/viewThread', {
+        thread_id: thread_id
+      }]
+    );
   }
 }

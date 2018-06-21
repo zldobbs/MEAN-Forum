@@ -1,6 +1,7 @@
 /*
-  MEAN Forum 
+  MEAN Forum
   Zachary Dobbs -- 2018
+  FIXME: at some point should remove the debug statements from production builds
   Win10 Script - "C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe"
 */
 

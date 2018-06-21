@@ -71,9 +71,40 @@ router.get('/allThreads', function(req, res, next) {
   });
 });
 
-// get the thread information
-router.get('/viewThread', function(req, res, next) {
-  // return thread json object
+// get all posts in the thread with id : thread_id
+router.post('/postsFromThread', function(req, res, next) {
+  const thread_id = req.body.thread_id;
+  console.log('thread sent = ' + thread_id);
+  console.log('req = ' + req);
+  // get this thread
+  Thread.getThread(thread_id, function(err, thread) {
+    if (err) {
+      res.json({succ: false, msg: 'failed to get the posts from the thread'});
+    }
+    else {
+      console.log(thread);
+      var posts = [];
+      var postsCount = 0;
+      const threadPostsLength = thread.posts.length;
+      thread.posts.forEach(function(post_id, index) {
+        Post.getPost(post_id, function(err, post) {
+          console.log(index);
+          if (err) {
+            res.json({succ: false, msg: 'failed to get the posts from the thread'});
+          }
+          else {
+            console.log(post);
+            posts.push(post);
+            postsCount++;
+            if (postsCount == threadPostsLength) {
+              res.json({succ: true, posts: posts});
+            }
+          }
+        });
+        console.log('posts are: ' + posts);
+      });
+    } 
+  });
 });
 
 // adding posts to threads
@@ -83,6 +114,7 @@ router.post('/createPost', passport.authenticate('jwt', { session : false }), fu
 
   const newPost = new Post({
     thread_id : req.body.thread_id,
+    // NOTE: look into using user id here instead of username
     username  : req.body.username,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
@@ -90,20 +122,19 @@ router.post('/createPost', passport.authenticate('jwt', { session : false }), fu
   });
 
   // validate thread exists
-  Thread.getThread(thread_id, function(err, thread) {
+  Thread.getThread(newPost.thread_id, function(err, thread) {
     if (err) {
       res.json({succ: false, msg: "failed to insert post"});
     }
     else {
       // insert post to db
-      newPost.addPost(function(err, post) {
+      Post.addPost(newPost, function(err, post) {
         if (err) {
           res.json({succ: false, msg: "failed to insert post"});
         }
         else {
           // add post id to the thread's array
-          // should thread be a const? it's the return value from above
-          thread.addPost(post._id, function(err, post) {
+          Thread.addPost(post._id, function(err, post) {
             if (err) {
               res.json({succ: false, msg: "failed to insert post"});
             }
