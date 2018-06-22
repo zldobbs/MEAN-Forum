@@ -74,15 +74,12 @@ router.get('/allThreads', function(req, res, next) {
 // get all posts in the thread with id : thread_id
 router.post('/postsFromThread', function(req, res, next) {
   const thread_id = req.body.thread_id;
-  console.log('thread sent = ' + thread_id);
-  console.log('req = ' + req);
   // get this thread
   Thread.getThread(thread_id, function(err, thread) {
     if (err) {
       res.json({succ: false, msg: 'failed to get the posts from the thread'});
     }
-    else {
-      console.log(thread);
+    else if (thread) {
       var posts = [];
       var postsCount = 0;
       const threadPostsLength = thread.posts.length;
@@ -101,16 +98,15 @@ router.post('/postsFromThread', function(req, res, next) {
             }
           }
         });
-        console.log('posts are: ' + posts);
+        console.log('posts: ' + posts);
       });
-    } 
+    }
   });
 });
 
 // adding posts to threads
 router.post('/createPost', passport.authenticate('jwt', { session : false }), function(req, res, next) {
   // need to send thread id with this function
-  // check if the post is a reply
 
   const newPost = new Post({
     thread_id : req.body.thread_id,
@@ -145,10 +141,54 @@ router.post('/createPost', passport.authenticate('jwt', { session : false }), fu
       });
     }
   });
+});
 
-  // TODO: check if the post is a reply
-  // --> send 2 more fields in req.body, bool isReply and user_id
-  // ----> getPost on the user_id, if it doesn't exist something has gone terribly wrong in the logic
+// adding replies to posts
+// NOTE: this is kinda funky implementation..
+// does it leave any glaring dependency issues? the thread has no idea this post exists
+// until it hits the reply...
+// this could actually be ingenius
+// deleting the reply will delete all replies. is this a good thing?
+// consider `the good place`
+router.post('/createReply', passport.authenticate('jwt', { session : false }), function(req, res, next) {
+  // need to send thread id with this function
+  // check if the post is a reply
+  const reply_id = req.body.reply_id;
+  const newPost = new Post({
+    thread_id : req.body.thread_id,
+    // NOTE: look into using user id here instead of username
+    username  : req.body.username,
+    body      : req.body.bodyText,
+    timestamp : new Date(), // current time
+    replies   : [] // no replies to start
+  });
+
+  // validate thread exists
+  Thread.getThread(newPost.thread_id, function(err, thread) {
+    if (err) {
+      res.json({succ: false, msg: "failed to insert post"});
+    }
+    else {
+      // insert post to db
+      Post.addPost(newPost, function(err, post) {
+        if (err) {
+          res.json({succ: false, msg: "failed to insert post"});
+        }
+        else {
+          console.log('post = ' + post);
+          // add the post to the replies of the the parent post
+          Post.addReply(reply_id, post, function(err, post) {
+            // should return updated post
+            if (err) {
+              res.json({succ: false, msg: "failed to insert post"});
+            }
+          });
+          // done
+          res.json({succ: true, msg: post});
+        }
+      });
+    }
+  });
 });
 
 // deletes a user's thread

@@ -14,6 +14,7 @@
     </div>
     <div class="row">
       <div class="input-field col s12 m6 push-m8 white-text">
+        <!--FIXME: upon creating thread, refresh the page -->
         <input type="submit" value="Create" class="btn waves-effect" required>
       </div>
     </div>
@@ -25,8 +26,8 @@
   <div class="row">
     <!-- FIXME: this should be just a component at some point -->
     <ul *ngFor="let thread of threads" class="col s12 collection">
-      <li class="collection-item">{{thread.creator}}: {{thread.originText}} ---
-        <a (click)="goToThread(thread._id)">{{thread._id}}</a>
+      <li class="collection-item">{{ thread.creator }}: {{ thread.originText }} ---
+        <a (click)="goToThread(thread._id)">{{ thread._id }}</a>
       </li>
     </ul>
   </div>

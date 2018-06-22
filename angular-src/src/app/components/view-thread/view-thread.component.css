@@ -1,0 +1,8 @@
+.postbox {
+  background-color: #efede1;
+  box-shadow: 1px 1px black;
+}
+
+.postbox .row {
+  margin: 15px;
+}

@@ -4,33 +4,31 @@ const config = require('../config/db');
 
 // A post is a user's message posted on a thread
 const PostSchema = mongoose.Schema({
-  /* 
-    FIXME: may come back to add the following features: 
-    title : String, 
+  /*
+    FIXME: may come back to add the following features:
+    title : String,
     media : array[Images],
-    
+
     TODO: look into the ability to embed YouTube video
   */
-  thread_id : {
-    type : mongoose.Schema.Types.ObjectId 
-    // require : true //> not required for now, 
-    // --> if this is null initially then this should be treated as the initial post for a new thread
-  },
+  thread_id : mongoose.Schema.Types.ObjectId,
   username : {
     type: String,
-    require: true
+    required: true
   },
   body : {
     type: String,
-    require: true
+    required: true
   },
   timestamp : {
     type: Date,
     required: true
   },
   replies : [{
-    // foreign key 
-    post_id : mongoose.Schema.Types.ObjectId
+    _id : mongoose.Schema.Types.ObjectId,
+    username : String,
+    bodyText : String,
+    timestamp : Date
   }]
 });
 
@@ -41,7 +39,7 @@ module.exports.getPost = function(id, callback) {
 }
 
 module.exports.addPost = function(newPost, callback) {
-  // should authentication of the user occur here? probably not but debug to be sure 
+  // should authentication of the user occur here? probably not but debug to be sure
   newPost.save(callback);
 }
 
@@ -50,10 +48,27 @@ module.exports.updateThreadId = function(post, newThreadId, callback) {
     post._id,
     {thread_id : newThreadId},
     {safe: true, upsert: true, new : true},
-  function(err, post) {
+  function(err, updatedPost) {
     if (err) throw err;
-    return post;
+    return updatedPost;
   });
 }
 
-// delete post 
+module.exports.addReply = function(reply_id, post, callback) {
+  console.log('reply is = ' + post);
+  Post.findByIdAndUpdate(
+    reply_id,
+    {$push: {"replies": {
+      _id: post._id,
+      username: post.username,
+      bodyText: post.body,
+      timestamp: post.timestamp
+    }}},
+    {safe: true, upsert: true, new : true},
+  function(err, updatedPost) {
+    if (err) throw err;
+    return updatedPost;
+  });
+}
+
+// delete post

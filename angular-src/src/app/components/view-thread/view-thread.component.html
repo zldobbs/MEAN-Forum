@@ -1,15 +1,44 @@
 <div *ngIf="posts" class="row">
   <div class="col s12 m8 push-m2">
-    <div id="origin-post" class="row">
+    <!-- TODO: sort posts by timestamp -->
+    <div *ngFor="let post of posts" class="row postbox">
       <div class="row left-align teal-text text-darken-1">
-        <h3>{{ posts[0].username }}</h3>
+        <h3>{{ post.username }}</h3>
       </div>
       <div class="row center-align">
-        <p>{{ posts[0].body }}</p>
+        <p>{{ post.body }}</p>
       </div>
-      <div class="row right-align teal-text text-lighten-4">
-        <p>{{ posts[0].timestamp }}</p>
+      <div class="row">
+        <div class="col s6 left-align">
+          <p>reply</p>
+        </div>
+        <div class="col s6 right-align teal-text text-darken-4">
+          <p>{{ post.timestamp }}</p>
+        </div>
       </div>
+    </div>
+    <div class="row">
+      <!-- NOTE: having the reply functionality at the bottom isn't the best UX -->
+      <form (submit)="onReplyThreadSubmit()" class="col s12">
+        <!-- will need a similar function for replying to posts -->
+        <div class="row">
+          <div class="input-field col s12 m8 push-m2">
+            <textarea name="replyText" [(ngModel)]="replyText" id="bodyText" class="materialize-textarea" required></textarea>
+            <label for="replyText">reply to thread</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m8 push-m2 white-text">
+            <input type="submit" value="Reply" class="btn waves-effect" required>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+
+<!--
+TODO add reply functionality
+NOTE user must be logged in to see the form
+-->
