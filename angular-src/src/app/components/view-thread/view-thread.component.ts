@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ViewThreadComponent implements OnInit {
   thread_id: string;
+  user: any;
   posts: [any];
   replyText: string;
 
@@ -30,6 +31,9 @@ export class ViewThreadComponent implements OnInit {
       _this.forumManagerService.getAllPostsInThread(_this.thread_id).subscribe(function(thread) {
         if (thread.succ) {
           _this.posts = thread.posts;
+          _this.posts.sort(function(a, b) {
+            return a.timestamp - b.timestamp;
+          });
         }
         else {
           console.log(thread.msg);
@@ -37,32 +41,41 @@ export class ViewThreadComponent implements OnInit {
         }
       });
     });
+
+    this.authService.getProfile().subscribe(function(profile) {
+      if (profile.succ) {
+        _this.user = profile.user;
+      }
+      else {
+        console.log(profile.msg);
+        return false;
+      }
+    })
   }
 
   onReplyThreadSubmit() {
     // get the user that is submitting the reply
     var _this = this;
-    this.authService.getProfile().subscribe(function(profile) {
+    if (this.user) {
       const newPost = {
-        username: profile.user.username,
+        username: _this.user.username,
         bodyText: _this.replyText
       };
       console.log('adding reply = ' + newPost);
       _this.forumManagerService.addReplyToThread(_this.thread_id, newPost).subscribe(function(data) {
         if (data.succ) {
-          // update view
-          toast('replied!', 5000, 'green');
-          console.log('new reply to thread = ' + data.post);
+          location.reload();
         }
         else {
           toast('failed!', 5000, 'red');
           console.log(data.msg);
         }
       });
-    }, function(err) {
-      console.log(err);
+    }
+    else {
+      console.log('user is not signed in, can not post');
       return false;
-    });
+    }
   }
 
   // NOTE: add functionality to reply to thread here

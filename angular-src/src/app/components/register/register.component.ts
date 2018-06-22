@@ -22,6 +22,12 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // check if we're logged in 
+    // FIXME should probably make a guard to handle this instead....
+    const _this = this;
+    if (this.authService.loggedIn()) {
+        _this.router.navigate(['/dashboard']);
+    }
   }
 
   onRegisterSubmit() {
@@ -47,8 +53,18 @@ export class RegisterComponent implements OnInit {
     const _this = this;
     this.authService.registerUser(user).subscribe(function(data) {
       if (data.succ) {
-        toast('You are now registered!', 5000, 'green');
-        _this.router.navigate(['/login']);
+        // now login user
+        _this.authService.authenticateUser(user).subscribe(function(newUser) {
+          if (newUser.succ) {
+            _this.authService.storeUserData(newUser.token, newUser.user);
+            toast('You are now registered!', 5000, 'green');
+            _this.router.navigate(['/dashboard']); // NOTE: consider changing redirect location
+          }
+          else {
+            toast('Failed to register', 5000, 'red');
+            _this.router.navigate(['/register']);            
+          }
+        });
       }
       else {
         toast('Failed to register', 5000, 'red');

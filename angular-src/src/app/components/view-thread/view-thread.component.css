@@ -1,8 +1,15 @@
 .postbox {
-  background-color: #efede1;
-  box-shadow: 1px 1px black;
+  background-color: #CFFAEF;
+}
+
+.postbox h3 {
+  color: #3268AC;;
 }
 
 .postbox .row {
   margin: 15px;
+}
+
+#reply-button {
+  background-color: #235799;
 }

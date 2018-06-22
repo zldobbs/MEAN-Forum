@@ -2,6 +2,10 @@
   min-width: 100%;
 }
 
+h4 {
+  color: #46C6A5;
+}
+
 #home-board {
   height: 30vh;
   padding: 2vh 1vh 2vh 1vh;
@@ -14,5 +18,5 @@
 }
 
 #register-btn {
-  background-color: #68DBBF;
+  background-color: #235799;
 }

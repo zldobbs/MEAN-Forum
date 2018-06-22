@@ -26,7 +26,7 @@ router.post('/register', function(req, res, next) {
     else {
       res.json({
         succ : true,
-        msg  : "user " + user.username + " registered"
+        user : user
       });
     }
   });

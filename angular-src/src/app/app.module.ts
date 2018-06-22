@@ -19,13 +19,15 @@ import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { ForumManagerService } from './services/forum-manager.service'
 import { AuthGuard } from './guards/auth.guard';
+import { FeedComponent } from './components/feed/feed.component';
 
 const appRoutes : Routes = [
   { path : '', component : HomeComponent },
+  { path : 'dashboard', component : DashboardComponent },
+  { path : 'feed', component : FeedComponent },
   { path : 'login', component : LoginComponent },
-  { path : 'register', component : RegisterComponent },
   { path : 'profile', component : ProfileComponent, canActivate : [AuthGuard] },
-  { path : 'dashboard', component : DashboardComponent, canActivate : [AuthGuard] },
+  { path : 'register', component : RegisterComponent },
   { path : 'viewThread', component : ViewThreadComponent }
 ];
 
@@ -38,7 +40,8 @@ const appRoutes : Routes = [
     HomeComponent,
     ProfileComponent,
     DashboardComponent,
-    ViewThreadComponent
+    ViewThreadComponent,
+    FeedComponent
   ],
   imports: [
     BrowserModule,

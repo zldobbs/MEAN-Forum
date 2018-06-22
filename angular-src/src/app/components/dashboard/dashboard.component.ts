@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
     this.forumMangagerService.createThread(newPost).subscribe(function(data) {
       if (data.succ) {
         toast('Thread created!', 5000, 'green');
-        _this.router.navigate(['/dashboard']);
+        _this.goToThread(data.thread_id);
         // NOTE: this should actually redirect to a page to view the Thread
         // --> via a get url param of the thread's id
       }

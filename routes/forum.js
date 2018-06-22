@@ -50,7 +50,7 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
             }
           });
           // done
-          res.json({succ: true, thread: thread});
+          res.json({succ: true, thread_id: thread._id});
         }
       });
     }
