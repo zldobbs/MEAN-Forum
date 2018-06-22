@@ -1,8 +1,19 @@
 /* TODO: custom layout */
-.brand-logo {
-  left: 50px;
+#main-nav {
+  min-height: 80px;
+  background-color: #3268AC;
 }
 
 #home-nav-link {
   margin-right: 100px;
+}
+
+.brand-logo {
+  left: 50px;
+  top: 10px;
+}
+
+.small-icon {
+  width: 88.5px;
+  height: 62.85px;
 }
