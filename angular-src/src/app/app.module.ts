@@ -14,12 +14,14 @@ import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewThreadComponent } from './components/view-thread/view-thread.component'
+import { FeedComponent } from './components/feed/feed.component';
 
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
-import { ForumManagerService } from './services/forum-manager.service'
+import { ForumManagerService } from './services/forum-manager.service';
+import { UploadService } from './services/upload.service';
+
 import { AuthGuard } from './guards/auth.guard';
-import { FeedComponent } from './components/feed/feed.component';
 
 const appRoutes : Routes = [
   { path : '', component : HomeComponent },
@@ -62,6 +64,7 @@ const appRoutes : Routes = [
     ValidateService,
     AuthService,
     ForumManagerService,
+    UploadService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

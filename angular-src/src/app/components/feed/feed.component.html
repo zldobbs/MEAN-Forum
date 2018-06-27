@@ -2,3 +2,27 @@
 <div class="row">
   <h2>stay well</h2>
 </div>
+
+<!-- NOTE: from here on, test code for file upload -->
+<div class="row">
+  <form (submit)="onFileUploadSubmit()" class="col s12">
+    <div class="row">
+      <div class="col s12 m10">
+        <label>file upload</label>
+        <div class="file-field input-field">
+          <div class="btn waves-effect">
+            <span>browse</span>
+            <input type="file" />
+          </div>
+
+          <div class="file-path-wrapper">
+             <input class="file-path validate" type="text" placeholder ="upload file" />
+          </div>
+        </div>
+      </div>
+      <div class="input-field col s12 m2 white-text">
+        <input type="submit" value="Submit" id="login-button" class="btn waves-effect" required>
+      </div>
+    </div>
+  </form>
+</div>

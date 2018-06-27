@@ -50,7 +50,7 @@ export class ViewThreadComponent implements OnInit {
         console.log(profile.msg);
         return false;
       }
-    })
+    });
   }
 
   onReplyThreadSubmit() {
