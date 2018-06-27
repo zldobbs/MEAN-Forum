@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ForumManagerService {
   user: any;
   post: any;

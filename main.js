@@ -37,11 +37,13 @@ require('./config/passport')(passport);
 // route and static pathing
 const users = require('./routes/users');
 const forum = require('./routes/forum');
+const upload = require('./routes/upload');
 
 app.use(express.static(path.join(__dirname, '/node_modules')));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/users', users);
 app.use('/forum', forum);
+app.use('/upload', upload);
 
 // FIXME: add error-handling for bad URL requests
 
