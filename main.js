@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const config = require('./config/db');
 
 // establish mongodb connection
@@ -27,6 +28,7 @@ const app = express();
 const http = require('http').Server(app);
 
 app.use(cors());
+app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 
 // passport init for authentication

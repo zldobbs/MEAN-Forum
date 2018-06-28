@@ -9,6 +9,7 @@ import { UploadService } from '../../services/upload.service';
 })
 export class FeedComponent implements OnInit {
   user: any;
+  file: any; // note: could this be changed to multiple files - yes
 
   constructor(
     private authService: AuthService,
@@ -28,13 +29,17 @@ export class FeedComponent implements OnInit {
     });
   }
 
-  onFileUploadSubmit() {
+  onFileUpload(fileInput) {
+    this.file = fileInput.target.files[0];
+    console.log('file input:');
+    console.log(this.file);
+  }
+
+  onFileSubmit() {
     console.log('attempting to upload file');
-    // should probably not be sending json, instead send form data
-    const _this = this;
-    // what should file be ..?
-    // this.uploadService.uploadFile(file).subscribe((data) => {
-    //   console.log(data);
-    // });
+    this.uploadService.uploadFile(this.file).subscribe((data) => {
+      console.log('got response');
+      console.log(data);
+    });
   }
 }

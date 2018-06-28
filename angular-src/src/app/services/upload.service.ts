@@ -18,17 +18,21 @@ export class UploadService {
   ) { }
 
   uploadFile(file) {
+    console.log('upload service uploading...');
+    var formData = new FormData();
+    formData.append('file', file, file.name);
+    console.log(file);
+    console.log(formData);
     let headers = new Headers();
     this.authToken = this.authService.loadToken();
     headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json'); 
-    console.log('sending file');
-    console.log(file);
-    return this.http.post('http://localhost:3000/upload/', file, {headers: headers}).pipe(
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    return this.http.post('http://localhost:3000/upload/', formData, {headers: headers}).pipe(
       map(function(res) {
         return res.json();
       })
-    );  
+    );
   }
 
 }

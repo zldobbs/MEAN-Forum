@@ -18,10 +18,10 @@ const jwt = require('jsonwebtoken');
 const connection = mongoose.connection;
 
 // init grid stream
-let gfs; 
+let gfs;
 
 // NOTE: from now on, starting to use the new ES6 functions here
-// this is pretty inconsistent with current code base, when I get bored or hire an intern we'll clean up 
+// this is pretty inconsistent with current code base, when I get bored or hire an intern we'll clean up
 connection.once('open', () => {
   // initialize grid stream
   gfs = Grid(connection.db, mongoose.mongo);
@@ -32,7 +32,9 @@ connection.once('open', () => {
 const storage = new GridFsStorage({
   url: config.database,
   file: (req, file) => {
-    // NOTE: also following ES6, going to start using Promises when applicable 
+    console.log('attempting to upload file gfs...');
+    console.log(file);
+    // NOTE: also following ES6, going to start using Promises when applicable
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {
         if (err) {
@@ -54,7 +56,7 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 router.post('/', passport.authenticate('jwt', { session : false }), upload.single('file'), (req, res) => {
-  res.json({file: req.file});
+  res.json({succ: true, file: req.body.file});
 });
 
 module.exports = router;
