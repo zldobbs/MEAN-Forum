@@ -22,11 +22,10 @@ export class UploadService {
     var formData = new FormData();
     formData.append('file', file, file.name);
     console.log(file);
-    console.log(formData);
+    console.log(Array.from(formData.getAll('file')));
     let headers = new Headers();
     this.authToken = this.authService.loadToken();
     headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
     return this.http.post('http://localhost:3000/upload/', formData, {headers: headers}).pipe(
       map(function(res) {

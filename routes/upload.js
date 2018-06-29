@@ -56,7 +56,7 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 router.post('/', passport.authenticate('jwt', { session : false }), upload.single('file'), (req, res) => {
-  res.json({succ: true, file: req.body.file});
+  res.json({succ: true, file: req.file});
 });
 
 module.exports = router;
