@@ -56,17 +56,13 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 router.post('/', passport.authenticate('jwt', { session : false }), upload.single('file'), (req, res) => {
-  res.json({succ: true, file: req.file});
+  res.json({succ: true, file: req.file}); 
 });
 
 router.get('/image/:filename', (req, res) => {
-  console.log(Array.from(gfs.files.find())); // EMPTY..???
-  gfs.files.findOne({ _id : req.params.filename }, (err, file) => {
-    if (!file || file.length) {
-      const err = { succ: false, msg: "failed to find file" };
-      res.json(err);
-    }
-    else {
+  console.log('fetching filename: ' + req.params.filename);
+  gfs.files.findOne({ filename : req.params.filename }, (err, file) => {
+    if (file) {
       // checking specifically for image here
       if (file.contentType == 'image/png' || file.contentType == 'image/jpeg') {
         res.set('Content-Type', file.mimetype);
@@ -78,22 +74,11 @@ router.get('/image/:filename', (req, res) => {
         res.json(err);
       }
     }
+    else {
+      const err = { succ: false, msg: "failed to find file" };
+      res.json(err);
+    }
   });
-  // FIXME: can't find the file ???
-  // gfs.exist({ "_id" : req.params.filename }, (err, found) => {
-  //   if (found) {
-  //     const readstream = gfs.createReadStream({_id: req.params.filename});
-  //     readstream.on('error', (err) => {
-  //       var err = { succ: false, msg: err };
-  //       res.json(err);
-  //     });
-  //     readstream.pipe(res);
-  //   }
-  //   else {
-  //     var err = { succ: false, msg: "failed to find file" };
-  //     res.json(err);
-  //   }
-  // });
 });
 
 module.exports = router;
