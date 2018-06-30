@@ -59,4 +59,41 @@ router.post('/', passport.authenticate('jwt', { session : false }), upload.singl
   res.json({succ: true, file: req.file});
 });
 
+router.get('/image/:filename', (req, res) => {
+  console.log(Array.from(gfs.files.find())); // EMPTY..???
+  gfs.files.findOne({ _id : req.params.filename }, (err, file) => {
+    if (!file || file.length) {
+      const err = { succ: false, msg: "failed to find file" };
+      res.json(err);
+    }
+    else {
+      // checking specifically for image here
+      if (file.contentType == 'image/png' || file.contentType == 'image/jpeg') {
+        res.set('Content-Type', file.mimetype);
+        const readstream = gfs.createReadStream(file.filename);
+        readstream.pipe(res);
+      }
+      else {
+        const err = { succ: false, msg: "file is not an image" };
+        res.json(err);
+      }
+    }
+  });
+  // FIXME: can't find the file ???
+  // gfs.exist({ "_id" : req.params.filename }, (err, found) => {
+  //   if (found) {
+  //     const readstream = gfs.createReadStream({_id: req.params.filename});
+  //     readstream.on('error', (err) => {
+  //       var err = { succ: false, msg: err };
+  //       res.json(err);
+  //     });
+  //     readstream.pipe(res);
+  //   }
+  //   else {
+  //     var err = { succ: false, msg: "failed to find file" };
+  //     res.json(err);
+  //   }
+  // });
+});
+
 module.exports = router;

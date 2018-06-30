@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
@@ -31,6 +31,20 @@ export class UploadService {
       map(function(res) {
         return res.json();
       })
+    );
+  }
+
+  getImage(encFilename) {
+    let params = new URLSearchParams();
+    params.append('filename', encFilename);
+    let options = new RequestOptions({ params: params });
+    return this.http.get('http://localhost:3000/upload/image/:image_id', options).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (err) => {
+        console.log(err);
+      }
     );
   }
 
