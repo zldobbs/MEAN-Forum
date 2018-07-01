@@ -16,6 +16,12 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  profilePicture : {
+    // even though user's aren't required to set a profile picture,
+    // by this point they should have a default pic set. 
+    type: String,
+    required: true
+  },
   body : {
     type: String,
     required: true
@@ -61,6 +67,7 @@ module.exports.addReply = function(reply_id, post, callback) {
     {$push: {"replies": {
       _id: post._id,
       username: post.username,
+      profilePicture: post.profilePicture,
       bodyText: post.body,
       timestamp: post.timestamp
     }}},

@@ -31,13 +31,16 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
+    // Phil Thomas Katt will be the default profile pic
+    const defaultProfilePic = "bc79679e1b71616a25949acf764392c2.png"; 
     // can't send toast normally, gets consumed.. prevent default?
     // TODO: add password validation against confirm password field
     const user = {
       name: this.name,
       username: this.username,
       email: this.email,
-      password: this.password
+      password: this.password,
+      profilePicture: defaultProfilePic
     }
 
     // validate fields filled before registering

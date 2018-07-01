@@ -13,3 +13,17 @@
 #reply-button {
   background-color: #235799;
 }
+
+.user-info img {
+  margin: 5px;
+  width: 75px;
+  height: 75px;
+}
+
+.user-info h3 {
+  margin-left: 10px;
+}
+
+.user-info h3, .user-info div, .user-info ng-template {
+  display: inline;
+}

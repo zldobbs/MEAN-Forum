@@ -21,6 +21,9 @@ const UserSchema = mongoose.Schema({
   password : {
     type: String,
     required: true
+  },
+  profilePicture : {
+    type: String
   }
 });
 
@@ -36,6 +39,19 @@ module.exports.getUserByUsername = function(username, callback) {
 }
 
 module.exports.addUser = function(newUser, callback) {
+  // FIXME: before adding user, check if username or email already exists 
+  // User.findOne({username: newUser.username}, (err, user) => {
+  //   if (user) {
+  //     throw "username already exists";
+  //   }
+  //   else {
+  //     User.findOne({email: newUser.email}, (err, user) => {
+  //       if (user) {
+  //         throw "email already exists";
+  //       }
+  //     });
+  //   }
+  // });
   bcrypt.genSalt(10, function(err, salt) {
     if (err) throw err;
     bcrypt.hash(newUser.password, salt, function(err, hash) {
@@ -50,4 +66,12 @@ module.exports.comparePassword = function(passwordAttempt, hash, callback) {
     if (err) throw err;
     callback(null, isMatch);
   });
+}
+
+module.exports.updateProfilePicture = function(email, filename, callback) {
+  User.findOneAndUpdate(
+    { email: email },
+    { profilePicture : filename },
+    callback
+  );
 }

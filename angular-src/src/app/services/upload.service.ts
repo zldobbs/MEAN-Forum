@@ -34,13 +34,27 @@ export class UploadService {
     );
   }
 
+  updateProfilePicture(userEmail, profilePicFilename) {
+    const updateInfo = {email: userEmail, filename: profilePicFilename};
+    let headers = new Headers();
+    this.authToken = this.authService.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/upload/updateProfilePicture', updateInfo, {headers: headers}).pipe(
+      map(function(res) {
+        return res.json();
+      })
+    );
+  }
+
   getImage(encFilename) {
+    //  returns the image's buffer. right now: use http://localhost:3000/uploads/image/:filename
     let params = new URLSearchParams();
     params.append('filename', encFilename);
     let options = new RequestOptions({ params: params });
     return this.http.get('http://localhost:3000/upload/image/:image_id', options).subscribe(
       (data) => {
-        console.log(data);
+        console.log(data.toString());
       },
       (err) => {
         console.log(err);

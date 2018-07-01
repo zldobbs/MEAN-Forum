@@ -17,6 +17,7 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
   const newPost = new Post({
     thread_id : null, // for now
     username  : req.body.username,
+    profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
     replies   : [] // no replies to start
@@ -112,6 +113,7 @@ router.post('/createPost', passport.authenticate('jwt', { session : false }), fu
     thread_id : req.body.thread_id,
     // NOTE: look into using user id here instead of username
     username  : req.body.username,
+    profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
     replies   : [] // no replies to start
@@ -158,6 +160,7 @@ router.post('/createReply', passport.authenticate('jwt', { session : false }), f
     thread_id : req.body.thread_id,
     // NOTE: look into using user id here instead of username
     username  : req.body.username,
+    profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
     replies   : [] // no replies to start

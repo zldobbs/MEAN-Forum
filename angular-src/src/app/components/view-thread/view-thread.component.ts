@@ -43,31 +43,35 @@ export class ViewThreadComponent implements OnInit {
     });
 
     this.authService.getProfile().subscribe(function(profile) {
-      if (profile.succ) {
-        _this.user = profile.user;
-      }
-      else {
-        console.log(profile.msg);
-        return false;
-      }
+      _this.user = profile.user
+    },
+    function(err) {
+      console.log(err);
+      return false;
     });
   }
 
   onReplyThreadSubmit() {
+  // Phil Thomas Katt will be the default profile pic
+  const defaultProfilePic = "bc79679e1b71616a25949acf764392c2.png"; 
     // get the user that is submitting the reply
     var _this = this;
     if (this.user) {
-      const newPost = {
+      let newPost = {
         username: _this.user.username,
+        profilePicture: _this.user.profilePicture,
         bodyText: _this.replyText
       };
-      console.log('adding reply = ' + newPost);
+      if (!newPost.profilePicture) {
+        newPost.profilePicture = defaultProfilePic;
+      }
+      console.log('adding reply = ' + newPost.profilePicture);
       _this.forumManagerService.addReplyToThread(_this.thread_id, newPost).subscribe(function(data) {
         if (data.succ) {
           location.reload();
         }
         else {
-          toast('failed!', 5000, 'red');
+          toast('Failed to post reply!', 5000, 'red');
           console.log(data.msg);
         }
       });

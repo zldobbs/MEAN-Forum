@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit {
   onCreateThreadSubmit() {
     const newPost = {
       username: this.user.username,
+      profilePicture: this.user.profilePicture,
       bodyText: this.bodyText
     }
     const _this = this;

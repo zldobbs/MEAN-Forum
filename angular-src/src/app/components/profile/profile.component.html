@@ -1,7 +1,21 @@
 <div *ngIf="user" class="row">
-  <h2 class="col s6 m3 push-m3">{{ user.name }}</h2>
-  <div class="row">
-    <ul class="col s12 m6 push-m3">
+  <div class="col s12 m4">
+    <h2>{{ user.name }}</h2>
+    <div *ngIf="user.profilePicture; else defaultProfilePic">
+      <img class="circle responsive-img" src="http://localhost:3000/upload/image/{{ user.profilePicture }}" alt="profile pic">
+    </div>  
+    <ng-template #defaultProfilePic>
+      <img class="circle responsive-img" src="http://localhost:3000/upload/image/bc79679e1b71616a25949acf764392c2.png" alt="default profile picture">
+    </ng-template>
+    <div class="file-field input-field">
+      <div class="btn waves-effect center-div">
+        <span>Update Profile Picture</span>
+        <input type="file" (change)="onFileUpload($event)" />
+      </div>
+    </div>
+  </div>
+  <div id="profileInfo" class="col s12 m8">
+    <ul>
       <li>username: {{ user.username }}</li>
       <li>email: {{ user.email }}</li>
     </ul>

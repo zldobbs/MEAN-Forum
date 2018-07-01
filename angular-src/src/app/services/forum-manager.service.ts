@@ -61,6 +61,7 @@ export class ForumManagerService {
     const newPost = {
       thread_id : thread_id,
       username : post.username,
+      profilePicture: post.profilePicture,
       bodyText : post.bodyText
     }
     this.authToken = this.authService.loadToken();

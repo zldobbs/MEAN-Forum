@@ -13,6 +13,7 @@ const Grid = require('gridfs-stream');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const User = require('../model/user');
 
 // pull in connection from main
 const connection = mongoose.connection;
@@ -77,6 +78,18 @@ router.get('/image/:filename', (req, res) => {
     else {
       const err = { succ: false, msg: "failed to find file" };
       res.json(err);
+    }
+  });
+});
+
+router.post('/updateProfilePicture', passport.authenticate('jwt', { session : false }), (req, res) => {
+  console.log('updating profile picture.. ' + req.body.email + ' ' + req.body.filename);
+  User.updateProfilePicture(req.body.email, req.body.filename, (err, user) => {
+    if (err) {
+      res.json({succ: false, msg: err});
+    }
+    else {
+      res.json({succ: true, msg: req.body.filename});
     }
   });
 });
