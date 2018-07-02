@@ -52,8 +52,6 @@ export class ViewThreadComponent implements OnInit {
   }
 
   onReplyThreadSubmit() {
-  // Phil Thomas Katt will be the default profile pic
-  const defaultProfilePic = "bc79679e1b71616a25949acf764392c2.png"; 
     // get the user that is submitting the reply
     var _this = this;
     if (this.user) {
@@ -62,9 +60,6 @@ export class ViewThreadComponent implements OnInit {
         profilePicture: _this.user.profilePicture,
         bodyText: _this.replyText
       };
-      if (!newPost.profilePicture) {
-        newPost.profilePicture = defaultProfilePic;
-      }
       console.log('adding reply = ' + newPost.profilePicture);
       _this.forumManagerService.addReplyToThread(_this.thread_id, newPost).subscribe(function(data) {
         if (data.succ) {

@@ -13,12 +13,13 @@ router.post('/register', function(req, res, next) {
     name : req.body.name,
     email : req.body.email,
     username : req.body.username,
-    password : req.body.password,
-    profilePicture : req.body.profilePicture
+    password : req.body.password
   });
 
   User.addUser(newUser, function(err, user) {
+    console.log('adding ' + newUser.username);
     if (err) {
+      err = null;
       res.json({
         succ : false,
         msg  : "user registration failed"

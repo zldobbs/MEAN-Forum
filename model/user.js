@@ -11,11 +11,13 @@ const UserSchema = mongoose.Schema({
   },
   username : {
     type: String,
+    unique: true,
     require: true
   },
   email : {
     // forgot password, updates?
     type: String,
+    unique: true,
     required: true
   },
   password : {
@@ -39,19 +41,6 @@ module.exports.getUserByUsername = function(username, callback) {
 }
 
 module.exports.addUser = function(newUser, callback) {
-  // FIXME: before adding user, check if username or email already exists 
-  // User.findOne({username: newUser.username}, (err, user) => {
-  //   if (user) {
-  //     throw "username already exists";
-  //   }
-  //   else {
-  //     User.findOne({email: newUser.email}, (err, user) => {
-  //       if (user) {
-  //         throw "email already exists";
-  //       }
-  //     });
-  //   }
-  // });
   bcrypt.genSalt(10, function(err, salt) {
     if (err) throw err;
     bcrypt.hash(newUser.password, salt, function(err, hash) {

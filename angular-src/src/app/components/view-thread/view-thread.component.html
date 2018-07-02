@@ -4,10 +4,10 @@
     <div *ngFor="let post of posts" class="row postbox z-depth-4">
       <div class="row user-info left-align teal-text text-darken-1">
         <div *ngIf="post.profilePicture; else defaultProfilePic">
-          <img class="circle responsive-img" src="http://localhost:3000/upload/image/{{ post.profilePicture }}" alt="profile pic">
+          <img class="circle responsive-img z-depth-2" src="http://localhost:3000/upload/image/{{ post.profilePicture }}" alt="profile pic">
         </div>  
         <ng-template #defaultProfilePic>
-          <img class="circle responsive-img" src="http://localhost:3000/upload/image/bc79679e1b71616a25949acf764392c2.png" alt="default profile picture">
+          <img class="circle responsive-img z-depth-2" src="assets/img/blank-profile-picture.png" alt="default profile picture">
         </ng-template>
         <h3>{{ post.username }}</h3>
       </div>

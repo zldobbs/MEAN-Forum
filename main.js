@@ -2,7 +2,8 @@
   MEAN Forum
   Zachary Dobbs -- 2018
   FIXME: at some point should remove the debug statements from production builds
-  Win10 Script - "C:\Program Files\MongoDB\Server\3.6\bin\mongod.exe"
+  Win10 Script for mongo shell - "C:\Program Files\MongoDB\Server\3.6\bin\mongo.exe"
+  -- mongod should be running as dameon on Win10. if it isn't, run ^ w/ `...\bin\mongod.exe` 
 */
 
 // initialize app

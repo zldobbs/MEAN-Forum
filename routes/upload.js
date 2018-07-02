@@ -14,6 +14,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
+const Post = require('../model/post');
 
 // pull in connection from main
 const connection = mongoose.connection;
@@ -89,7 +90,17 @@ router.post('/updateProfilePicture', passport.authenticate('jwt', { session : fa
       res.json({succ: false, msg: err});
     }
     else {
-      res.json({succ: true, msg: req.body.filename});
+      console.log('updating all posts from ' + user.username);
+      Post.updateProfilePicture(user.username, req.body.filename, (err, data) => {
+        if (err) {
+          console.log('failed to update posts');
+          res.json({succ: false, msg: err});
+        }
+        else {
+          console.log('updated all posts');
+          res.json({succ: true, msg: req.body.filename});
+        }
+      });
     }
   });
 });
