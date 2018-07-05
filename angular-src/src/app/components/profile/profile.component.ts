@@ -28,6 +28,14 @@ export class ProfileComponent implements OnInit {
       console.log(err);
       return false;
     });
+
+    // find all threads that a user is involved in.
+    // two queries, one for all threads that have user as owner
+    // second is any posts that the user has replied too
+    // display in one box, denote through a slight shading to differentiate
+    // sort the results based on timestamp of most recent post / thread 
+    // make sure only one result per thread is being displayed (most recent post from thread as well)
+    // how to solve this efficiently..?
   }
 
   onFileUpload(fileInput) {
