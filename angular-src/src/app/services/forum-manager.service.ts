@@ -58,10 +58,13 @@ export class ForumManagerService {
 
   addReplyToThread(thread_id, post) {
     let headers = new Headers();
+    // this seems redundant.....
+    // no need for me to make a new post object, should just take the post passed in 
     const newPost = {
       thread_id : thread_id,
       username : post.username,
       profilePicture: post.profilePicture,
+      mediaURL: post.mediaURL,
       bodyText : post.bodyText
     }
     this.authToken = this.authService.loadToken();

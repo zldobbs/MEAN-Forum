@@ -8,6 +8,7 @@
       <img class="circle responsive-img" src="assets/img/blank-profile-picture.png" alt="default profile picture">
     </ng-template>
     <div class="file-field input-field z-depth-2">
+      <!-- can this be consolidated to one div ? -->
       <div id="update-profile-picture-button" class="btn waves-effect">
         <span>Update Profile Picture</span>
         <input type="file" (change)="onFileUpload($event)" />

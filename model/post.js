@@ -29,9 +29,14 @@ const PostSchema = mongoose.Schema({
     type: Date,
     required: true
   },
+  media : {
+    type: String // encoded media url
+  },
+  // NOTE: why can't replies just be a post id?
   replies : [{
     _id : mongoose.Schema.Types.ObjectId,
     username : String,
+    profilePicture: String,
     bodyText : String,
     timestamp : Date
   }]
@@ -68,7 +73,8 @@ module.exports.addReply = function(reply_id, post, callback) {
       username: post.username,
       profilePicture: post.profilePicture,
       bodyText: post.body,
-      timestamp: post.timestamp
+      timestamp: post.timestamp,
+      media: post.mediaURL
     }}},
     {safe: true, upsert: true, new : true},
   function(err, updatedPost) {
