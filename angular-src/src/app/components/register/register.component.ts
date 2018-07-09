@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   username: String;
   email: String;
   password: String;
+  error: boolean;
 
   constructor(
     private validateService: ValidateService,
@@ -31,16 +32,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-    // Phil Thomas Katt will be the default profile pic
-    const defaultProfilePic = "bc79679e1b71616a25949acf764392c2.png"; 
     // can't send toast normally, gets consumed.. prevent default?
     // TODO: add password validation against confirm password field
     const user = {
       name: this.name,
       username: this.username,
       email: this.email,
-      password: this.password,
-      profilePicture: defaultProfilePic
+      password: this.password
     }
 
     // validate fields filled before registering
@@ -64,14 +62,12 @@ export class RegisterComponent implements OnInit {
             _this.router.navigate(['/dashboard']); // NOTE: consider changing redirect location
           }
           else {
-            toast('Failed to register', 5000, 'red');
-            _this.router.navigate(['/register']);            
+            toast('Failed to save user data!', 5000, 'red');   
           }
         });
       }
       else {
-        toast('Failed to register', 5000, 'red');
-        _this.router.navigate(['/register']);
+        toast('Username or email is already in use!', 5000, 'red');
       }
     });
 

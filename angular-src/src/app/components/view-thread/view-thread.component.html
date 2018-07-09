@@ -4,16 +4,24 @@
     <div *ngFor="let post of posts" class="row postbox z-depth-4">
       <div class="row user-info left-align teal-text text-darken-1">
         <div *ngIf="post.profilePicture; else defaultProfilePic">
-          <img class="circle responsive-img" src="http://localhost:3000/upload/image/{{ post.profilePicture }}" alt="profile pic">
+          <img class="circle responsive-img z-depth-2" src="http://localhost:3000/upload/image/{{ post.profilePicture }}" alt="profile pic" />
         </div>  
         <ng-template #defaultProfilePic>
-          <img class="circle responsive-img" src="http://localhost:3000/upload/image/bc79679e1b71616a25949acf764392c2.png" alt="default profile picture">
+          <img class="circle responsive-img z-depth-2" src="assets/img/blank-profile-picture.png" alt="default profile picture" />
         </ng-template>
         <h3>{{ post.username }}</h3>
       </div>
-      <div class="row left-align">
+      <div class="row">
         <div class="col s12 m8 push-m2">
+          <div *ngIf="!post.media; else mediaPost">
             <p>{{ post.body }}</p>
+          </div>
+          <ng-template #mediaPost>
+            <div class="center-align">
+              <img class="responsive-img z-depth-2" src="http://localhost:3000/upload/image/{{ post.media }}" alt="media" />
+            </div>
+            <p>{{ post.body}}</p>
+          </ng-template>
         </div>
       </div>
       <div class="row">
@@ -34,14 +42,23 @@
       <form (submit)="onReplyThreadSubmit()" class="col s12">
         <!-- will need a similar function for replying to posts -->
         <div class="row">
-          <div class="input-field col s12 m8 push-m2">
+          <div class="input-field col s12">
             <textarea name="replyText" [(ngModel)]="replyText" id="bodyText" class="materialize-textarea" required></textarea>
             <label for="replyText">reply to thread</label>
           </div>
         </div>
-        <div class="row">
-          <div class="input-field col s12 m8 push-m2 white-text">
-            <input id="reply-button" type="submit" value="Reply" class="btn waves-effect" required>
+        <div class="row right-align">
+          <div class="file-field input-field col s12 m8">
+            <div id="media-button" class="btn waves-effect white-text">
+                <span>Upload Media</span>
+                <input type="file" (change)="onFileUpload($event)" />
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder ="file..."  />
+             </div>
+          </div>
+          <div class="input-field white-text col s12 m4">
+            <input id="reply-button" type="submit" value="Reply" class="btn waves-effect">
           </div>
         </div>
       </form>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ForumManagerService } from '../../services/forum-manager.service';
 import { AuthService } from '../../services/auth.service';
+import { UploadService } from '../../services/upload.service';
 import { toast } from 'angular2-materialize';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -14,10 +15,12 @@ export class ViewThreadComponent implements OnInit {
   user: any;
   posts: [any];
   replyText: string;
+  file: any;
 
   constructor(
     private forumManagerService: ForumManagerService,
     private authService: AuthService,
+    private uploadService: UploadService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -36,7 +39,7 @@ export class ViewThreadComponent implements OnInit {
           });
         }
         else {
-          console.log(thread.msg);
+          _this.router.navigate(['/dashboard']);
           return false;
         }
       });
@@ -51,37 +54,61 @@ export class ViewThreadComponent implements OnInit {
     });
   }
 
+  onFileUpload(fileInput) {
+    this.file = fileInput.target.files[0];
+    console.log('file input:');
+    console.log(this.file);
+  }
+
   onReplyThreadSubmit() {
-  // Phil Thomas Katt will be the default profile pic
-  const defaultProfilePic = "bc79679e1b71616a25949acf764392c2.png"; 
-    // get the user that is submitting the reply
     var _this = this;
     if (this.user) {
-      let newPost = {
+
+      var newPost = {
         username: _this.user.username,
         profilePicture: _this.user.profilePicture,
-        bodyText: _this.replyText
+        bodyText: _this.replyText,
+        mediaURL: null
       };
-      if (!newPost.profilePicture) {
-        newPost.profilePicture = defaultProfilePic;
+
+      if (_this.file) {
+        // upload the media 
+        this.uploadService.uploadFile(_this.file).subscribe((data) => {
+          if (data.succ) {
+            console.log('uploaded new media');
+            console.log(data);
+            newPost.mediaURL = data.file.filename;
+            _this.postReply(newPost);
+          }
+          else {
+            // error uploading the file selected by the user
+            toast('Failed to upload image!', 5000, 'red');
+            return false;
+          }
+        });
       }
-      console.log('adding reply = ' + newPost.profilePicture);
-      _this.forumManagerService.addReplyToThread(_this.thread_id, newPost).subscribe(function(data) {
-        if (data.succ) {
-          location.reload();
-        }
-        else {
-          toast('Failed to post reply!', 5000, 'red');
-          console.log(data.msg);
-        }
-      });
+      else {
+        _this.postReply(newPost);
+      }
     }
     else {
-      console.log('user is not signed in, can not post');
+      toast('Please login to post a reply!', 5000, 'red');
       return false;
     }
   }
 
-  // NOTE: add functionality to reply to thread here
+  postReply(post) {
+    const newPost = post;
+    console.log('media = ' + newPost.mediaURL);
+    this.forumManagerService.addReplyToThread(this.thread_id, newPost).subscribe(function(data) {
+      if (data.succ) {
+        location.reload();
+      }
+      else {
+        toast('Invalid reply!', 5000, 'red');
+        console.log(data.msg);
+      }
+    });
+  }
 
 }

@@ -1,14 +1,15 @@
 <div *ngIf="user" class="row">
-  <div class="col s12 m4">
+  <div class="user-info col s12 m4">
     <h2>{{ user.name }}</h2>
     <div *ngIf="user.profilePicture; else defaultProfilePic">
-      <img class="circle responsive-img" src="http://localhost:3000/upload/image/{{ user.profilePicture }}" alt="profile pic">
+      <img class="circle responsive-img z-depth-2" src="http://localhost:3000/upload/image/{{ user.profilePicture }}" alt="profile pic">
     </div>  
     <ng-template #defaultProfilePic>
-      <img class="circle responsive-img" src="http://localhost:3000/upload/image/bc79679e1b71616a25949acf764392c2.png" alt="default profile picture">
+      <img class="circle responsive-img" src="assets/img/blank-profile-picture.png" alt="default profile picture">
     </ng-template>
-    <div class="file-field input-field">
-      <div class="btn waves-effect center-div">
+    <div class="file-field input-field z-depth-2">
+      <!-- can this be consolidated to one div ? -->
+      <div id="update-profile-picture-button" class="btn waves-effect">
         <span>Update Profile Picture</span>
         <input type="file" (change)="onFileUpload($event)" />
       </div>

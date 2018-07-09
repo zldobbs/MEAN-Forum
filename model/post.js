@@ -17,10 +17,9 @@ const PostSchema = mongoose.Schema({
     required: true
   },
   profilePicture : {
-    // even though user's aren't required to set a profile picture,
-    // by this point they should have a default pic set. 
-    type: String,
-    required: true
+    // if a user doesn't have one set, display default pic 
+    // should go this route so default can be stored in angular assets 
+    type: String
   },
   body : {
     type: String,
@@ -30,9 +29,14 @@ const PostSchema = mongoose.Schema({
     type: Date,
     required: true
   },
+  media : {
+    type: String // encoded media url
+  },
+  // NOTE: why can't replies just be a post id?
   replies : [{
     _id : mongoose.Schema.Types.ObjectId,
     username : String,
+    profilePicture: String,
     bodyText : String,
     timestamp : Date
   }]
@@ -69,13 +73,27 @@ module.exports.addReply = function(reply_id, post, callback) {
       username: post.username,
       profilePicture: post.profilePicture,
       bodyText: post.body,
-      timestamp: post.timestamp
+      timestamp: post.timestamp,
+      media: post.mediaURL
     }}},
     {safe: true, upsert: true, new : true},
   function(err, updatedPost) {
     if (err) throw err;
     return updatedPost;
   });
+}
+
+module.exports.updateProfilePicture = function(username, filename, callback) {
+  console.log('username: ' + username);
+  console.log('filename: ' + filename);
+  const query = {username : username};
+  const options = {profilePicture : filename};
+  Post.update(
+    {username: username},
+    {$set: {profilePicture: filename}},
+    {multi: true},
+    callback
+  );
 }
 
 // delete post

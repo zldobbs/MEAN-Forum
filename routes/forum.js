@@ -14,12 +14,13 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
 
   // NOTE: use null value for thread initially, update after thread is created
   // TODO: check if this could lead to security vulnerabilities
-  const newPost = new Post({
+  let newPost = new Post({
     thread_id : null, // for now
     username  : req.body.username,
     profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
+    media     : req.body.mediaURL,
     replies   : [] // no replies to start
   });
 
@@ -109,13 +110,14 @@ router.post('/postsFromThread', function(req, res, next) {
 router.post('/createPost', passport.authenticate('jwt', { session : false }), function(req, res, next) {
   // need to send thread id with this function
 
-  const newPost = new Post({
+  let newPost = new Post({
     thread_id : req.body.thread_id,
     // NOTE: look into using user id here instead of username
     username  : req.body.username,
     profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
+    media     : req.body.mediaURL,
     replies   : [] // no replies to start
   });
 
@@ -155,6 +157,7 @@ router.post('/createPost', passport.authenticate('jwt', { session : false }), fu
 router.post('/createReply', passport.authenticate('jwt', { session : false }), function(req, res, next) {
   // need to send thread id with this function
   // check if the post is a reply
+  console.log('creating new post, media = ' + req.body.media);
   const reply_id = req.body.reply_id;
   const newPost = new Post({
     thread_id : req.body.thread_id,
@@ -163,6 +166,7 @@ router.post('/createReply', passport.authenticate('jwt', { session : false }), f
     profilePicture : req.body.profilePicture,
     body      : req.body.bodyText,
     timestamp : new Date(), // current time
+    media     : req.body.mediaURL,
     replies   : [] // no replies to start
   });
 
