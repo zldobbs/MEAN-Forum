@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ForumManagerService } from '../../services/forum-manager.service';
+import { UploadService } from '../../services/upload.service';
 import { toast } from 'angular2-materialize';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,10 +14,12 @@ export class DashboardComponent implements OnInit {
   user: any;
   bodyText: String;
   threads: [any];
+  file: any;
 
   constructor(
     private authService: AuthService,
     private forumMangagerService: ForumManagerService,
+    private uploadService: UploadService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -44,14 +47,44 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onFileUpload(fileInput) {
+    this.file = fileInput.target.files[0];
+    console.log('file input:');
+    console.log(this.file);
+  }
+
   onCreateThreadSubmit() {
     const newPost = {
       username: this.user.username,
       profilePicture: this.user.profilePicture,
-      bodyText: this.bodyText
+      bodyText: this.bodyText,
+      mediaURL: null
     }
     const _this = this;
-    this.forumMangagerService.createThread(newPost).subscribe(function(data) {
+    if (_this.file) {
+      // upload the media 
+      _this.uploadService.uploadFile(_this.file).subscribe((data) => {
+        if (data.succ) {
+          console.log('uploaded new media');
+          console.log(data);
+          newPost.mediaURL = data.file.filename;
+          _this.postThread(newPost);
+        }
+        else {
+          // error uploading the file selected by the user
+          toast('Failed to upload image!', 5000, 'red');
+          return false;
+        }
+      });
+    }
+    else {
+      _this.postThread(newPost);
+    }
+  }
+
+  postThread(post) {
+    const _this = this;
+    this.forumMangagerService.createThread(post).subscribe(function(data) {
       if (data.succ) {
         toast('Thread created!', 5000, 'green');
         _this.goToThread(data.thread_id);
@@ -64,6 +97,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
 
   goToThread(thread_id) {
     this.router.navigate(

@@ -13,7 +13,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s12 m6 push-m8 white-text">
+      <div class="file-field input-field col s12 m6 push-m2">
+        <div id="media-button" class="btn waves-effect white-text">
+            <span>Upload Media</span>
+            <input type="file" (change)="onFileUpload($event)" />
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder ="file..."  />
+          </div>
+      </div>
+      <div class="input-field col s12 m2 push-m2 white-text">
         <!--FIXME: upon creating thread, refresh the page -->
         <input id="create-button" type="submit" value="Create" class="btn waves-effect" required>
       </div>
