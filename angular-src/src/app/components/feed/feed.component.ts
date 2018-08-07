@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-feed',
@@ -10,10 +9,11 @@ import { UploadService } from '../../services/upload.service';
 export class FeedComponent implements OnInit {
   user: any;
   file: any; // note: could this be changed to multiple files - yes
+  stories: any;
+  storyCols: any;
 
   constructor(
-    private authService: AuthService,
-    private uploadService: UploadService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -27,19 +27,102 @@ export class FeedComponent implements OnInit {
         return false;
       }
     });
-  }
 
-  onFileUpload(fileInput) {
-    this.file = fileInput.target.files[0];
-    console.log('file input:');
-    console.log(this.file);
-  }
+    // get stories from mongo, need a service to post them too (admin page)
+    // dummy code
+    this.stories = [
+      {
+        'str': 'hello',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'world',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'yuh',
+        'boxSize': 3,        
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'asdf',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'hi',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'one',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'tw',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'three',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      },
+      {
+        'str': 'four',
+        'boxSize': 3,
+        'backgroundColor': '#FFFFFF'
+      }
+    ];
 
-  onFileSubmit() {
-    console.log('attempting to upload file');
-    this.uploadService.uploadFile(this.file).subscribe((data) => {
-      console.log('got response');
-      console.log(data);
-    });
+    this.storyCols = [];
+
+    var lastSize = 0; 
+    var storyCol;
+
+    for (var i = 0; i < this.stories.length; i++) {
+      switch (lastSize) {
+        case 3:
+          this.stories[i].boxSize = Math.floor((Math.random() * 2) + 1); // get num between 1-2
+          lastSize = this.stories[i].boxSize;
+          break;
+        case 2:
+          this.stories[i].boxSize = 1;
+          lastSize = 0;
+          break;
+        case 1:
+          this.stories[i].boxSize = 2;
+          lastSize = 0;
+          break;
+        case 0:
+        default:
+          this.stories[i].boxSize = Math.floor((Math.random() * 3) + 1); // get num between 1-3
+          lastSize = this.stories[i].boxSize;
+          break;
+      }
+      this.stories[i].backgroundColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      if (lastSize == 0 || lastSize == 3) {
+        if (lastSize == 0) {
+          storyCol = {
+            'stories' : [
+              this.stories[i - 1],
+              this.stories[i]
+            ]
+          };  
+        }
+        else {
+          storyCol = { "stories" : [this.stories[i]] };
+        }
+        this.storyCols.push(storyCol);
+      }
+    }
+    if (lastSize == 1 || lastSize == 2) {
+      storyCol = { 'stories' : [this.stories[i-1]] };
+      this.storyCols.push(storyCol);
+    }
+    console.log(this.storyCols);
   }
 }
