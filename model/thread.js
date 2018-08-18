@@ -16,6 +16,10 @@ const ThreadSchema = mongoose.Schema({
   posts : [{
     post_id : mongoose.Schema.Types.ObjectId
   }],
+  tags : [{
+    type: String,
+    required: false
+  }],
   timestamp : {
     type: Date,
     required: true

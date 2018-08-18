@@ -34,7 +34,8 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
       var newThread = new Thread({
         creator   : req.body.username, // this should be == to post.username
         originText: req.body.bodyText,
-        posts     : [], // for now
+        posts     : [], 
+        tags      : [], 
         timestamp : new Date()
       });
       // add the newly created post to the thread
@@ -200,14 +201,29 @@ router.post('/createReply', passport.authenticate('jwt', { session : false }), f
 
 // deletes a user's thread
 router.post('/deleteThread', passport.authenticate('jwt', { session : false }), function(req, res, next) {
-  // FIXME: implement later
-  // Thread.findByIdAndDelete
+  // FIXME: test implementation
+  // need to authenticate the user deleting owns the thread.. 
+  Thread.findByIdAndDelete(req.body.thread_id, function(err) {
+    if (err) {
+      res.json({succ: false, msg: "failed to delete thread"});
+    }
+    else {
+      res.json({succ: true, msg: "deleted thread"});
+    }
+  });
 });
 
 // deletes a user's post
 router.post('/deletePost', passport.authenticate('jwt', { session : false }), function(req, res, next) {
-  // FIXME: implement later
-  // Post.findByIdandDelete
+  // FIXME: test implementation
+  Post.findByIdandDelete(req.body.post_id, function(err) {
+    if (err) {
+      res.json({succ: false, msg: "failed to delete post"});
+    }
+    else {
+      res.json({succ: true, msg: "deleted post"});
+    }
+  });
 });
 
 module.exports = router;
