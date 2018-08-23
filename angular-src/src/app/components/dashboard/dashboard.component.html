@@ -42,7 +42,6 @@
       <li class="collection-item">{{ thread.creator }}: {{ thread.originText }} ---
         <a (click)="goToThread(thread._id)">{{ thread._id }}</a>
         <div class="right-align">
-          <p>Tags:</p>
           <div *ngFor="let tag of thread.threadTags" class="tagSection">
             <p>{{ tag }}</p>
           </div>      
