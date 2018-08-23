@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   user: any;
   bodyText: String;
   threads: [any];
+  tagText: any;
   file: any;
 
   constructor(
@@ -54,21 +55,26 @@ export class DashboardComponent implements OnInit {
   }
 
   onCreateThreadSubmit() {
-    const newPost = {
+    const newThread = {
       username: this.user.username,
       profilePicture: this.user.profilePicture,
       bodyText: this.bodyText,
+      threadTags: null,
       mediaURL: null
     }
     const _this = this;
+    // check for tags
+    if (_this.tagText) {
+      newThread.threadTags = _this.tagText.split(' ');
+    }
     if (_this.file) {
       // upload the media 
       _this.uploadService.uploadFile(_this.file).subscribe((data) => {
         if (data.succ) {
           console.log('uploaded new media');
           console.log(data);
-          newPost.mediaURL = data.file.filename;
-          _this.postThread(newPost);
+          newThread.mediaURL = data.file.filename;
+          _this.postThread(newThread);
         }
         else {
           // error uploading the file selected by the user
@@ -78,7 +84,7 @@ export class DashboardComponent implements OnInit {
       });
     }
     else {
-      _this.postThread(newPost);
+      _this.postThread(newThread);
     }
   }
 

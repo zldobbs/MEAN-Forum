@@ -7,20 +7,24 @@
     <!-- FIXME: difficult to click the actual inputs..? -->
     <div class="row">
       <!-- for some reason the height of this textarea ends up being 2x as big as it should be... -->
-      <div class="input-field col s12 m6 push-m3">
+      <div class="input-field col s12 m8 push-m2">
         <textarea name="bodyText" [(ngModel)]="bodyText" id="bodyText" class="materialize-textarea" required></textarea>
         <label for="bodyText">share your thoughts</label>
       </div>
     </div>
     <div class="row">
-      <div class="file-field input-field col s12 m6 push-m2">
+      <div class="file-field input-field col s12 m3 push-m2">
         <div id="media-button" class="btn waves-effect white-text">
-            <span>Upload Media</span>
-            <input type="file" (change)="onFileUpload($event)" />
+          <i class="small material-icons">insert_photo</i>
+          <input type="file" (change)="onFileUpload($event)" />
         </div>
         <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder ="file..."  />
-          </div>
+          <input class="file-path validate" type="text" placeholder ="file..."  />
+        </div>
+      </div>
+      <div class="input-field col s12 m3 push-m2">
+        <input placeholder="seperate by spaces" name="tagText" [(ngModel)]="tagText" id="tagText" type="text" class="validate">
+        <label for="tagText">Tags</label>
       </div>
       <div class="input-field col s12 m2 push-m2 white-text">
         <!--FIXME: upon creating thread, refresh the page -->
@@ -37,6 +41,12 @@
     <ul *ngFor="let thread of threads" class="col s12 collection">
       <li class="collection-item">{{ thread.creator }}: {{ thread.originText }} ---
         <a (click)="goToThread(thread._id)">{{ thread._id }}</a>
+        <div class="right-align">
+          <p>Tags:</p>
+          <div *ngFor="let tag of thread.threadTags" class="tagSection">
+            <p>{{ tag }}</p>
+          </div>      
+        </div>
       </li>
     </ul>
   </div>

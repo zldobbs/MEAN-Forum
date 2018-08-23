@@ -16,7 +16,7 @@ const ThreadSchema = mongoose.Schema({
   posts : [{
     post_id : mongoose.Schema.Types.ObjectId
   }],
-  tags : [{
+  threadTags : [{
     type: String,
     required: false
   }],

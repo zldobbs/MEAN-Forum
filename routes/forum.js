@@ -35,7 +35,7 @@ router.post('/createThread', passport.authenticate('jwt', { session : false }), 
         creator   : req.body.username, // this should be == to post.username
         originText: req.body.bodyText,
         posts     : [], 
-        tags      : [], 
+        threadTags: req.body.threadTags, 
         timestamp : new Date()
       });
       // add the newly created post to the thread

@@ -6,3 +6,14 @@
 #media-button {
   background-color: #235799;
 }
+
+.tagSection {
+  text-align: right;
+  display: inline;
+}
+
+.tagSection p {
+  display: inline;
+  margin-right: 5px;
+  text-align: right;
+}

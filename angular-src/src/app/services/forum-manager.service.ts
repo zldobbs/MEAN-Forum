@@ -19,13 +19,14 @@ export class ForumManagerService {
     private authService: AuthService
   ) {}
 
-  createThread(post) {
+  createThread(thread) {
     let headers = new Headers();
     this.authToken = this.authService.loadToken();
     console.log('Token = ' + this.authToken);
+    console.log('Thread tags = ' + thread.threadTags);
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/forum/createThread', post, {headers: headers}).pipe(
+    return this.http.post('http://localhost:3000/forum/createThread', thread, {headers: headers}).pipe(
       map(function(res) {
         return res.json();
       })
