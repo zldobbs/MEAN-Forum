@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   threads: [any];
   tagText: any;
   file: any;
+  selectedTags: any;
 
   constructor(
     private authService: AuthService,
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     const _this = this;
-
+    this.selectedTags = [];
     // TODO: implement getThreads()
     this.forumMangagerService.getAllThreads().subscribe(function(data) {
       if (data.succ) {
@@ -104,6 +105,48 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  filterThreads() {
+    const _this = this;
+    this.forumMangagerService.getThreadsWithTag(_this.selectedTags).subscribe(function(data) {
+      if (data.succ) {
+        _this.threads = data.threads;
+        _this.router.navigate(['/dashboard']);
+      }
+      else {
+        toast('Found no posts with specified tags', 5000, 'red');
+      }
+    });
+  }
+
+  addTag(tag) {
+    if (this.selectedTags.indexOf(tag) < 0) {
+      this.selectedTags.push(tag);
+      this.filterThreads();  
+    }
+  }
+
+  clearTag(tag) {
+    const _this = this;
+    const index = this.selectedTags.indexOf(tag);
+    if (index > -1) {
+      _this.selectedTags.splice(index, 1);
+      if (_this.selectedTags.length == 0) {
+        _this.forumMangagerService.getAllThreads().subscribe(function(data) {
+          if (data.succ) {
+            _this.threads = data.threads;
+            _this.router.navigate(['/dashboard']);
+          }
+          else {
+            toast('Could not retrieve threads!', 5000, 'red');
+            return false;
+          }
+        });
+      }
+      else {
+        _this.filterThreads();
+      }
+    }
+  }
 
   goToThread(thread_id) {
     this.router.navigate(

@@ -37,6 +37,11 @@ module.exports.getAllThreads = function(callback) {
   Thread.find({ }, callback);
 }
 
+module.exports.getThreadsWithTag = function(selectedTags, callback) {
+  console.log("filtering tags: " + selectedTags);
+  Thread.find({"threadTags": {$in: selectedTags}}, callback);
+}
+
 module.exports.addThread = function(newThread, callback) {
   // NOTE: when creating threads, will need to ensure an initial post
   // i.e. no thread should ever have an empty posts []

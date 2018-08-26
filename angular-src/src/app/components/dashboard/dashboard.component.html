@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="input-field col s12 m3 push-m2">
-        <input placeholder="seperate by spaces" name="tagText" [(ngModel)]="tagText" id="tagText" type="text" class="validate">
+        <input name="tagText" [(ngModel)]="tagText" id="tagText" type="text" class="validate">
         <label for="tagText">Tags</label>
       </div>
       <div class="input-field col s12 m2 push-m2 white-text">
@@ -36,6 +36,15 @@
 
 <div *ngIf="threads" class="row">
   <h3 class="col s12">all threads</h3>
+  <div *ngIf="selectedTags.length != 0" class="filterSection">
+    <p>filter by tags: </p>
+    <div *ngFor="let tag of selectedTags" class="selectedTags">
+      <div class="btn filter-btn">
+        <p>{{ tag }}</p>
+        <i (click)="clearTag(tag)" class="small material-icons">clear</i>    
+      </div>
+    </div>
+  </div>
   <div class="row">
     <!-- FIXME: this should be just a component at some point -->
     <ul *ngFor="let thread of threads" class="col s12 collection">
@@ -43,7 +52,9 @@
         <a (click)="goToThread(thread._id)">{{ thread._id }}</a>
         <div class="right-align">
           <div *ngFor="let tag of thread.threadTags" class="tagSection">
-            <p>{{ tag }}</p>
+            <span (click)="addTag(tag)" class="tag">
+              <p>{{ tag }}</p>
+            </span>
           </div>      
         </div>
       </li>

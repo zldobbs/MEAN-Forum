@@ -45,6 +45,17 @@ export class ForumManagerService {
     );
   }
 
+  getThreadsWithTag(tags) {
+    let headers = new Headers();
+    const selectedTags = {selectedTags: tags};
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/forum/threadsWithTag', selectedTags, {headers: headers}).pipe(
+      map(function(res) {
+        return res.json();
+      })
+    );
+  }
+
   getAllPostsInThread(thread_id) {
     let headers = new Headers();
     const thread = {thread_id : thread_id}

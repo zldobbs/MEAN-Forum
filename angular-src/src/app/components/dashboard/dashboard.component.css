@@ -2,9 +2,33 @@
   background-color: #27AA89;
 }
 
-
 #media-button {
   background-color: #235799;
+}
+
+.filter-btn {
+  text-align: center;
+  background-color: #98EDD8;
+  margin-left: 1vw;
+  margin-bottom: 3vh;
+}
+
+.filter-btn p {
+  margin: 0 auto;
+}
+
+.filter-btn .material-icons {
+  color: black;
+  margin-left: 5px;
+}
+
+.filterSection p {
+  display: inline;
+  margin: 0 auto;
+}
+
+.tag:hover {
+  cursor: pointer;
 }
 
 .tagSection {
@@ -17,4 +41,10 @@
   margin-right: 5px;
   text-align: right;
   color: gray;
+}
+
+.selectedTags {
+  display: inline;
+  margin-right: 5px;
+  text-align: left;
 }

@@ -74,6 +74,18 @@ router.get('/allThreads', function(req, res, next) {
   });
 });
 
+// get all threads that contain the specified tags
+router.post('/threadsWithTag', function(req, res, next) {
+  Thread.getThreadsWithTag(req.body.selectedTags, function(err, threads) {
+    if (err) {
+      res.json({succ: false, msg: 'failed to find threads that match specified tags'});
+    }
+    else {
+      res.json({succ: true, threads: threads});
+    }
+  });
+});
+
 // get all posts in the thread with id : thread_id
 router.post('/postsFromThread', function(req, res, next) {
   const thread_id = req.body.thread_id;
