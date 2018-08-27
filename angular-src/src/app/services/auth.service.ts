@@ -74,4 +74,14 @@ export class AuthService {
     localStorage.clear();
   }
 
+  admin() {
+    // going to compare against the user id. should be a better way to do this
+    if (this.loggedIn()) {
+      if (!this.user) {
+        this.user = JSON.parse(localStorage.getItem('user'));
+      }
+      return (this.user.id == "5b837a31724e5f05dad839d5");  
+    }
+  }
+
 }

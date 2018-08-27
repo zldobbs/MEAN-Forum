@@ -103,6 +103,8 @@ export class FeedComponent implements OnInit {
           lastSize = this.stories[i].boxSize;
           break;
       }
+      // set random background color, need to actually apply this to the css 
+      // probably be easier with a specific subset of colors, not the entire spectrum 
       this.stories[i].backgroundColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
       if (lastSize == 0 || lastSize == 3) {
         if (lastSize == 0) {

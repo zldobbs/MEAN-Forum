@@ -7,9 +7,12 @@
       <li id="home-nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
             <a [routerLink]="['/']">home</a>
       </li>
+      <li *ngIf="authService.admin()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
+            <a [routerLink]="['/adminPanel']">admin panel</a>
+      </li>
       <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
-          <a [routerLink]="['/feed']">feed</a>
-    </li>
+            <a [routerLink]="['/feed']">feed</a>
+      </li>
       <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
             <a [routerLink]="['/dashboard']">dashboard</a>
       </li>
@@ -17,8 +20,8 @@
             <a [routerLink]="['/profile']">profile</a>
       </li>
       <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
-          <a [routerLink]="['/login']">login</a>
-    </li>
+            <a [routerLink]="['/login']">login</a>
+      </li>
       <!-- TODO: make login/register one page... 'Sign Up!' from login -->
       <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact : true }">
             <a [routerLink]="['/register']">register</a>
