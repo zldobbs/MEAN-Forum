@@ -6,7 +6,7 @@
   <div *ngFor="let storyCol of storyCols">
     <div class="story-col col s12 m6">
       <div class="story-table" *ngFor="let story of storyCol.stories">
-        <div class="story-box z-depth-3">
+        <div class="story-box z-depth-3" [ngStyle]="{'background-color': story.backgroundColor}">
             <div *ngIf="story.boxSize == 1" class="b1">
               <h3>{{ story.str }}</h3>
               <p>Box size 1</p>
