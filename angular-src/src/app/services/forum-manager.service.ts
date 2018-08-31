@@ -56,6 +56,18 @@ export class ForumManagerService {
     );
   }
 
+  getThreadsById(thread_ids) {
+    console.log("getting threads: " + thread_ids);
+    let headers = new Headers();
+    const queryIds = {thread_ids: thread_ids};
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/forum/threadsWithId', queryIds, {headers: headers}).pipe(
+      map(function(res) {
+        res.json();
+      })
+    )
+  }
+
   getAllPostsInThread(thread_id) {
     let headers = new Headers();
     const thread = {thread_id : thread_id}

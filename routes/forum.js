@@ -7,6 +7,7 @@ const Post = require('../model/post');
 const Thread = require('../model/thread');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const ObjectId = require('mongodb').ObjectID;
 
 // creating new threads
 router.post('/createThread', passport.authenticate('jwt', { session : false }), function(req, res, next) {
@@ -79,6 +80,25 @@ router.post('/threadsWithTag', function(req, res, next) {
   Thread.getThreadsWithTag(req.body.selectedTags, function(err, threads) {
     if (err) {
       res.json({succ: false, msg: 'failed to find threads that match specified tags'});
+    }
+    else {
+      res.json({succ: true, threads: threads});
+    }
+  });
+});
+
+// get threads from a list of ids
+router.post('/threadsWithId', function(req, res, next) {
+  // convert ids to ObjectIds 
+  var objectIds = [];
+  console.log("thread ids: " + req.body.thread_ids);
+  for (var i = 0; i < req.body.thread_ids.length; i++) {
+    console.log('converting ' + req.body.thread_ids[i]);
+    objectIds.push(ObjectId(req.body.thread_ids[i]));
+  }
+  Thread.getThreadsWithId(objectIds, function(err, threads) {
+    if (err) {
+      res.json({succ: false, msg: 'failed to find threads'});
     }
     else {
       res.json({succ: true, threads: threads});

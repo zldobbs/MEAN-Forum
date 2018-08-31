@@ -42,6 +42,12 @@ module.exports.getThreadsWithTag = function(selectedTags, callback) {
   Thread.find({"threadTags": {$in: selectedTags}}, callback);
 }
 
+module.exports.getThreadsWithId = function(thread_ids, callback) {
+  console.log("finding threads for: " + thread_ids);
+  // FIXME: not finding the threads...
+  Thread.find({"_id": {$in: thread_ids}}, callback);
+}
+
 module.exports.addThread = function(newThread, callback) {
   // NOTE: when creating threads, will need to ensure an initial post
   // i.e. no thread should ever have an empty posts []

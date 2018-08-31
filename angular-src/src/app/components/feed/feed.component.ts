@@ -23,15 +23,6 @@ export class FeedComponent implements OnInit {
 
   ngOnInit() {
     const _this = this;
-    this.authService.getProfile().subscribe(function(profile) {
-      if (profile.succ) {
-        _this.user = profile.user;
-      }
-      else {
-        console.log(profile.msg);
-        return false;
-      }
-    });
 
     // get stories from mongo, need a service to post them too (admin page)
     // dummy code
@@ -90,13 +81,29 @@ export class FeedComponent implements OnInit {
         // need to maintain the thread w/ additional text and timestamp added 
         // will the data returned be in the same order as it is sent? (stable?)
         // now retrieve the actual threads for each thread id in the array
-        _this.forumManagerService.getThreadsById()
+        var thread_ids = [];
+        for (let thread of data.feed) {
+          thread_ids.push(thread.thread_id);
+        }
+        console.log('thread ids = ' + thread_ids);
+        _this.forumManagerService.getThreadsById(thread_ids).subscribe((threadData) => {
+          if (threadData) {
+            console.log(data);
+            console.log(threadData);
+            _this.renderStoryDisplay();
+          }
+          else { 
+            console.log("Unable to get threads in feed");
+          }
+        });
       }
       else {
         toast("Failed to retrieve feed!", 5000, "red");
       }
     });
+  }
 
+  renderStoryDisplay() {
     this.storyCols = [];
 
     var lastSize = 0; 
