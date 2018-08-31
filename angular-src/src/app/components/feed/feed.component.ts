@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { FeedService } from '../../services/feed.service';
+import { ForumManagerService } from '../../services/forum-manager.service';
+import { toast } from 'angular2-materialize';
 
 @Component({
   selector: 'app-feed',
@@ -13,7 +16,9 @@ export class FeedComponent implements OnInit {
   storyCols: any;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private feedService: FeedService,
+    private forumManagerService: ForumManagerService
   ) { }
 
   ngOnInit() {
@@ -30,53 +35,67 @@ export class FeedComponent implements OnInit {
 
     // get stories from mongo, need a service to post them too (admin page)
     // dummy code
-    this.stories = [
-      {
-        'str': 'hello',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'world',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'yuh',
-        'boxSize': 3,        
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'asdf',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'hi',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'one',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'tw',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'three',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
-      },
-      {
-        'str': 'four',
-        'boxSize': 3,
-        'backgroundColor': '#FFFFFF'
+    // this.stories = [
+    //   {
+    //     'str': 'hello',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'world',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'yuh',
+    //     'boxSize': 3,        
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'asdf',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'hi',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'one',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'tw',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'three',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   },
+    //   {
+    //     'str': 'four',
+    //     'boxSize': 3,
+    //     'backgroundColor': '#FFFFFF'
+    //   }
+    // ];
+
+    this.feedService.getFeed().subscribe((data) => {
+      if (data.succ) {
+        console.log(data);
+        // scrape the thread id's ... getting a little confusing
+        // need to maintain the thread w/ additional text and timestamp added 
+        // will the data returned be in the same order as it is sent? (stable?)
+        // now retrieve the actual threads for each thread id in the array
+        _this.forumManagerService.getThreadsById()
       }
-    ];
+      else {
+        toast("Failed to retrieve feed!", 5000, "red");
+      }
+    });
 
     this.storyCols = [];
 

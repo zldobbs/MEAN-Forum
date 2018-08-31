@@ -1,3 +1,34 @@
+<!-- need to redesign, right now quickly cut + paste from dashboard code -->
+
 <div class="row">
   <h1>admin panel</h1>
+  <form (submit)="onCreateThreadSubmit()" class="col s12">
+    <!-- FIXME: difficult to click the actual inputs..? -->
+    <div class="row">
+      <!-- for some reason the height of this textarea ends up being 2x as big as it should be... -->
+      <div class="input-field col s12 m8 push-m2">
+        <textarea name="bodyText" [(ngModel)]="bodyText" id="bodyText" class="materialize-textarea" required></textarea>
+        <label for="bodyText">share your thoughts</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="file-field input-field col s12 m3 push-m2">
+        <div id="media-button" class="btn waves-effect white-text">
+          <i class="small material-icons">insert_photo</i>
+          <input type="file" (change)="onFileUpload($event)" />
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder ="file..."  />
+        </div>
+      </div>
+      <div class="input-field col s12 m3 push-m2">
+        <input name="tagText" [(ngModel)]="tagText" id="tagText" type="text" class="validate">
+        <label for="tagText">Tags</label>
+      </div>
+      <div class="input-field col s12 m2 push-m2 white-text">
+        <!--FIXME: upon creating thread, refresh the page -->
+        <input id="create-button" type="submit" value="Create" class="btn waves-effect" required>
+      </div>
+    </div>
+  </form>
 </div>

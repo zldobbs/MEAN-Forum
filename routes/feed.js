@@ -19,7 +19,12 @@ router.get('/getFeed', (req, res, next) => {
 });
 
 router.post('/addThreadToFeed', passport.authenticate('jwt', { session : false }), (req, res, next) => {
-    Feed.addThread(req.body.feedThread, (err, feed) => {
+    const newFeedThread = new Feed({
+        thread_id: req.body.thread_id,
+        additional_text: req.body.additional_text,
+        timestamp_added: req.body.timestamp_added
+    });
+    Feed.addThread(newFeedThread, (err, feed) => {
         if (err) {
             res.json({succ: false, msg: "failed to add thread to feed"});
         }

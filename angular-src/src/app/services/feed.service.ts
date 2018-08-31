@@ -3,6 +3,7 @@ import { Http, Headers } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,7 @@ export class FeedService {
   addThreadToFeed(feedThread) {
     // only admins can add to the feed
     if (!this.authService.admin()) {
-      console.log("unauthorized");
-      return {succ: false, msg: "unauthorized"};
+      console.log("unauthorized");;
     }
     let headers = new Headers();
     this.authToken = this.authService.loadToken();
