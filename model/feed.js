@@ -34,3 +34,12 @@ const Feed = module.exports = mongoose.model('Feed', FeedSchema);
         - DON'T pull posts for threads until user selects to O(0)
         - overall: O(N)
 */
+
+module.exports.getFeed = function(callback) {
+    // get all threads in the feed, later on create function to get specific 
+    Feed.find({ }, callback);
+}
+
+module.exports.addThread = function(newFeedThread, callback) {
+    newFeedThread.save(callback);
+}
