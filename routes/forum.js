@@ -89,20 +89,28 @@ router.post('/threadsWithTag', function(req, res, next) {
 
 // get threads from a list of ids
 router.post('/threadsWithId', function(req, res, next) {
-  // convert ids to ObjectIds 
-  var objectIds = [];
   console.log("thread ids: " + req.body.thread_ids);
-  for (var i = 0; i < req.body.thread_ids.length; i++) {
-    console.log('converting ' + req.body.thread_ids[i]);
-    objectIds.push(ObjectId(req.body.thread_ids[i]));
-  }
-  Thread.getThreadsWithId(objectIds, function(err, threads) {
-    if (err) {
-      res.json({succ: false, msg: 'failed to find threads'});
-    }
-    else {
-      res.json({succ: true, threads: threads});
-    }
+  var threads = [];
+  var threadCount = 0; 
+  const threadCountLength = req.body.thread_ids.length; 
+  req.body.thread_ids.forEach(function(thread_id, index) {
+    console.log("getting thread: " + thread_id);
+    Thread.getThread(thread_id, function(err, thread) {
+      if (err) {
+        // continue for now, but output the error message
+        console.log("failed to find thread with id: " + thread_id);
+        res.json({succ: false, msg: "error retrieving thread: " + thread_id});
+      }
+      else if (thread) {
+        threads.push(thread);
+        threadCount++;
+        if (threadCount == threadCountLength) {
+          // we're done and found all threads 
+          console.log("threads: " + threads);
+          res.json({succ: true, msg: threads});
+        }
+      }
+    });
   });
 });
 

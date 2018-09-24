@@ -63,9 +63,9 @@ export class ForumManagerService {
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:3000/forum/threadsWithId', queryIds, {headers: headers}).pipe(
       map(function(res) {
-        res.json();
+        return res.json();
       })
-    )
+    );
   }
 
   getAllPostsInThread(thread_id) {

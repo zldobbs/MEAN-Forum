@@ -8,16 +8,16 @@
       <div class="story-table" *ngFor="let story of storyCol.stories">
         <div class="story-box z-depth-3" [ngStyle]="{'background-color': story.backgroundColor}">
             <div *ngIf="story.boxSize == 1" class="b1">
-              <h3>{{ story.str }}</h3>
-              <p>Box size 1</p>
+              <h3>{{ story.creator }}</h3>
+              <p>{{ story.originText }}</p>
             </div>
             <div *ngIf="story.boxSize == 2" class="b2">
-              <h2>{{ story.str }}</h2>
-              <p>Box size 2</p>
+              <h2>{{ story.creator }}</h2>
+              <p>{{ story.originText }}</p>
             </div>
             <div *ngIf="story.boxSize == 3" class="b3">
-              <h1>{{ story.str }}</h1>
-              <p>Box size 3</p>
+              <h1>{{ story.creator }}</h1>
+              <p>{{ story.originText }}</p>
             </div>
         </div>
       </div>    

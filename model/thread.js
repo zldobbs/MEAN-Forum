@@ -45,7 +45,7 @@ module.exports.getThreadsWithTag = function(selectedTags, callback) {
 module.exports.getThreadsWithId = function(thread_ids, callback) {
   console.log("finding threads for: " + thread_ids);
   // FIXME: not finding the threads...
-  Thread.find({"_id": {$in: thread_ids}}, callback);
+  Thread.find({"id": {$in: thread_ids}}, callback);
 }
 
 module.exports.addThread = function(newThread, callback) {

@@ -87,9 +87,10 @@ export class FeedComponent implements OnInit {
         }
         console.log('thread ids = ' + thread_ids);
         _this.forumManagerService.getThreadsById(thread_ids).subscribe((threadData) => {
-          if (threadData) {
+          if (threadData.succ) {
             console.log(data);
-            console.log(threadData);
+            console.log(threadData.msg);
+            _this.stories = threadData.msg;
             _this.renderStoryDisplay();
           }
           else { 
