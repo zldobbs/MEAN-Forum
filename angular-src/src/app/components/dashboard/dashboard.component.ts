@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private forumMangagerService: ForumManagerService,
+    private forumManagerService: ForumManagerService,
     private uploadService: UploadService,
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
     const _this = this;
     this.selectedTags = [];
     // TODO: implement getThreads()
-    this.forumMangagerService.getAllThreads().subscribe(function(data) {
+    this.forumManagerService.getAllThreads().subscribe(function(data) {
       if (data.succ) {
         _this.threads = data.threads;
       }
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
 
   postThread(post) {
     const _this = this;
-    this.forumMangagerService.createThread(post).subscribe(function(data) {
+    this.forumManagerService.createThread(post).subscribe(function(data) {
       if (data.succ) {
         toast('Thread created!', 5000, 'green');
         _this.goToThread(data.thread_id);
@@ -107,7 +107,7 @@ export class DashboardComponent implements OnInit {
 
   filterThreads() {
     const _this = this;
-    this.forumMangagerService.getThreadsWithTag(_this.selectedTags).subscribe(function(data) {
+    this.forumManagerService.getThreadsWithTag(_this.selectedTags).subscribe(function(data) {
       if (data.succ) {
         _this.threads = data.threads;
         _this.router.navigate(['/dashboard']);
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit {
     if (index > -1) {
       _this.selectedTags.splice(index, 1);
       if (_this.selectedTags.length == 0) {
-        _this.forumMangagerService.getAllThreads().subscribe(function(data) {
+        _this.forumManagerService.getAllThreads().subscribe(function(data) {
           if (data.succ) {
             _this.threads = data.threads;
             _this.router.navigate(['/dashboard']);
